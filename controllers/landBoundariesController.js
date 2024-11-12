@@ -62,4 +62,44 @@ const createLandBoundaries = async (req, res) => {
     }
 };
 
-module.exports = { createLandBoundaries };
+const getAllLandBoundaries = async (req, res) => {
+    try {
+        const landBoundaries = await LandBoundaries.findAll();
+        res.status(200).json({
+            status_code: 200,
+            message: "Land Boundaries records fetched successfully",
+            data: landBoundaries
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error fetching land boundaries records', error: error.message });
+    }
+};
+
+const updateLandBoundaries = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        const [updated] = await LandBoundaries.update(updatedData, { where: { id } });
+        if (updated) {
+            const updatedLandBoundary = await LandBoundaries.findOne({ where: { id } });
+            res.status(200).json({
+                status_code: 200,
+                message: "Land Boundaries record updated successfully",
+                data: updatedLandBoundary
+            });
+        } else {
+            res.status(404).json({ message: "Land Boundary record not found" });
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error updating land boundaries record', error: error.message });
+    }
+};
+
+module.exports = {
+    createLandBoundaries,
+    getAllLandBoundaries,
+    updateLandBoundaries
+};

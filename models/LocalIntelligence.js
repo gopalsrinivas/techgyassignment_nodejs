@@ -1,4 +1,3 @@
-// D:\Projects\Task\techgyassignment_nodejs\models\LocalIntelligence.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 

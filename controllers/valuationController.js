@@ -90,6 +90,69 @@ const createValuation = async (req, res) => {
     }
 };
 
+const getAllValuations = async (req, res) => {
+    try {
+        const valuations = await Valuation.findAll();
+        res.status(200).json({
+            status_code: 200,
+            message: 'All valuations retrieved successfully',
+            data: valuations,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            message: 'Error retrieving valuation records',
+            error: error.message,
+        });
+    }
+};
+
+const updateValuation = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        if (req.files) {
+            updatedData.village_map_or_naksha_file = req.files.village_map_or_naksha_file
+                ? req.files.village_map_or_naksha_file.map(file => file.path)
+                : [];
+            updatedData.sub_register_value_file = req.files.sub_register_value_file
+                ? req.files.sub_register_value_file.map(file => file.path)
+                : [];
+            updatedData.valuator_report_file = req.files.valuator_report_file
+                ? req.files.valuator_report_file.map(file => file.path)
+                : [];
+            updatedData.land_owner_value_file = req.files.land_owner_value_file
+                ? req.files.land_owner_value_file.map(file => file.path)
+                : [];
+        }
+
+        const valuation = await Valuation.findByPk(id);
+        if (!valuation) {
+            return res.status(404).json({
+                status_code: 404,
+                message: 'Valuation record not found',
+            });
+        }
+
+        await valuation.update(updatedData);
+
+        res.status(200).json({
+            status_code: 200,
+            message: 'Valuation updated successfully',
+            data: valuation,
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            message: 'Error updating valuation record',
+            error: error.message,
+        });
+    }
+};
+
 module.exports = {
     createValuation,
+    getAllValuations,
+    updateValuation,
 };

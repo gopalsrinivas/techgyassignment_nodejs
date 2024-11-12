@@ -1,4 +1,3 @@
-// D:\Projects\Task\techgyassignment_nodejs\models\AgricultureCertification.js
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 

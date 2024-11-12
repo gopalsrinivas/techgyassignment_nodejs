@@ -11,4 +11,9 @@ router.post('/create-land-boundaries', upload.fields([
     { name: 'government_survey_file', maxCount: 10 }
 ]), landBoundariesController.createLandBoundaries);
 
+router.get('/all-land-boundaries', landBoundariesController.getAllLandBoundaries);
+
+router.put('/update-land-boundaries/:id', landBoundariesController.updateLandBoundaries);
+
+
 module.exports = router;

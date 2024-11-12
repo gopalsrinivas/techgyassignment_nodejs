@@ -1,4 +1,3 @@
-// D:\Projects\Task\techgyassignment_nodejs\controllers\agricultureCertificationController.js
 const AgricultureCertification = require('../models/AgricultureCertification');
 
 const createAgricultureCertification = async (req, res) => {
@@ -69,6 +68,36 @@ const createAgricultureCertification = async (req, res) => {
     }
 };
 
+const getAllAgricultureCertifications = async (req, res) => {
+    try {
+        const certifications = await AgricultureCertification.findAll();
+        res.status(200).json({ status_code: 200, data: certifications });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error retrieving agriculture certification records', error: error.message });
+    }
+};
+
+const updateAgricultureCertification = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        const certification = await AgricultureCertification.findByPk(id);
+        if (!certification) {
+            return res.status(404).json({ message: 'Record not found' });
+        }
+
+        await certification.update(updatedData);
+        res.status(200).json({ status_code: 200, message: 'Agriculture certification updated successfully', data: certification });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ message: 'Error updating agriculture certification record', error: error.message });
+    }
+};
+
 module.exports = {
     createAgricultureCertification,
+    getAllAgricultureCertifications,
+    updateAgricultureCertification,
 };

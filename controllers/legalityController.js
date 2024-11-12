@@ -61,6 +61,24 @@ const createLegality = async (req, res) => {
     }
 };
 
+const getAllLegalityRecords = async (req, res) => {
+    try {
+        const legalities = await Legality.findAll();
+        res.status(200).json({
+            status_code: 200,
+            message: 'Legality records fetched successfully',
+            data: legalities
+        });
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({
+            message: 'Error fetching legality records',
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     createLegality,
+    getAllLegalityRecords,
 };
