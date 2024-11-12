@@ -6,12 +6,14 @@ const port = 5000;
 const sequelize = require('./config/database');
 const legalityRoutes = require('./routes/legalityRoutes');
 const familyTreeRoutes = require('./routes/familyTreeRoutes');
+const landBoundariesRoutes = require('./routes/landBoundariesRoutes');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/legality', legalityRoutes);
 app.use('/api/family-tree', familyTreeRoutes);
+app.use('/api/land-boundaries', landBoundariesRoutes);
 
 sequelize.sync({ force: false })
     .then(() => {
